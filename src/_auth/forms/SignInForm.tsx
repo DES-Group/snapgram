@@ -18,13 +18,14 @@ import { useUSerContext } from '@/context/AuthContext';
 import { useSignInAccount } from '@/lib/react-query/queriesAndMutations';
 
 
+
 function SignInForm() {
 
   const { toast } = useToast()
   const { checkAuthUser, isLoading: isUserLoading } = useUSerContext()
   const navigate = useNavigate()
 
-  const {mutateAsync : signInAccount, isPending} =  useSignInAccount()
+  const {mutateAsync:signInAccount} =  useSignInAccount()
   
   // 1. Définition du formulaire en utilisant le hook useForm de react-hook-form.
   // Les conditions de validation de ce formulaire sont dans la fonction SignupFormValidation qui
@@ -59,9 +60,7 @@ function SignInForm() {
     }
     else {
       return toast({ title: "Échec de connexion. Merci de réessayer !" });
-    }
-
-   
+    }   
   }
 
 
@@ -82,7 +81,6 @@ function SignInForm() {
           Content de vous revoir
         </p>
       
-
         <form onSubmit={form.handleSubmit(onSubmit)}>
           
           <FormField

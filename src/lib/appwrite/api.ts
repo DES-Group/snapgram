@@ -3,6 +3,37 @@ import {account, appwriteConfig, avatars, databases} from './config'
 import { ID, Query } from "appwrite"
 
 
+
+export async function userExist(user: INewUser) {
+    
+    const currentUser = await databases.listDocuments(
+        appwriteConfig.databaseId, 
+        appwriteConfig.userCollectionId, 
+        [
+            Query.equal('name', user.name), 
+            Query.equal('username', user.username), 
+            Query.equal('email', user.email)
+        ]
+    )
+
+    if (!currentUser) throw Error; 
+        
+    if (currentUser.documents[0]) 
+    {
+        return true; //User already in the database
+    } 
+
+    return false; //User exist not.
+}
+
+
+
+/**
+ * This function create an account and then save the user to database.
+ * 
+ * @param user 
+ * @returns newUser
+ */
 export async function createUserAccount(user: INewUser) {
     
     try {
@@ -89,3 +120,18 @@ export async function getCurrentUser() {
         console.log(error)
     }
 }
+
+
+export async function signOutAccount() {
+    try {
+         await account.deleteSession('current')
+
+        return true
+    } catch (error) {
+        console.log(error)
+        throw error 
+    }
+}
+
+
+export async function createPost() {}

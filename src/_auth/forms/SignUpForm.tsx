@@ -15,20 +15,22 @@ import { z } from "zod"
 import Loader from "@/components/shared/Loader"
 import { Link, useNavigate } from "react-router-dom"
 import { useToast } from "@/components/ui/use-toast"
-import { useCreateUserAccount, useSignInAccount } from "@/lib/react-query/queriesAndMutations"
+import { useCreateUserAccount, useSignInAccount, useUserExist} from "@/lib/react-query/queriesAndMutations"
 import { useUSerContext } from "@/context/AuthContext"
 
 
 
 function SignUpForm() {
 
-  const { toast } = useToast(); 
-  const { checkAuthUser, isLoading: isUserLoading } = useUSerContext()
-  const navigate = useNavigate()
+  const { toast } = useToast(); //To show notification.
+  const { checkAuthUser } = useUSerContext() //To check if the user is connected or not.
+  const navigate = useNavigate() //To make redirection  
 
-
-  const { mutateAsync: createUserAccount, isPending: isCreatingAccount } = useCreateUserAccount();
-  const { mutateAsync: signInAccount, isPending: isSignIn } = useSignInAccount();
+  const { mutateAsync: createUserAccount, isPending: isCreatingAccount } =
+    useCreateUserAccount();
+  const { mutateAsync: signInAccount } = useSignInAccount()
+  const {mutateAsync: userExist} = useUserExist()
+  
   
   // 1. Définition du formulaire en utilisant le hook useForm de react-hook-form.
   // Les conditions de validation de ce formulaire sont dans la fonction SignupFormValidation qui
@@ -47,6 +49,16 @@ function SignUpForm() {
   // 2. La fonction a appelée lorsque le formulaire est validé
   async function onSubmit(values: z.infer<typeof SignupValidation>) {
     
+    //Check if a user with same informations already exist
+    const existingUser =await userExist(values) 
+
+    if (existingUser) 
+    {
+      return toast({
+        title: "Un compte utilisant ces informations a déjà été créé."
+      })  
+    }
+
     //Creating the user Account 
     const newUser = await createUserAccount(values);
 
@@ -58,14 +70,14 @@ function SignUpForm() {
     }
 
     //Login the user 
-    // const session = await signInAccount({
-    //   email: values.email,
-    //   password: values.password
-    // })
+    const session = await signInAccount({
+      email: values.email,
+      password: values.password
+    })
 
-    // if (!session) {
-    //   return toast({ title: "Connexion échoué. Merci de réessayer." })
-    // }
+    if (!session) {
+      return toast({ title: "Connexion échoué. Merci de réessayer." })
+    }
 
     const isLoggedIn = await checkAuthUser();
     
@@ -76,7 +88,6 @@ function SignUpForm() {
     else {
       return toast({ title: "Échec de connexion. Merci de réessayer !" });
     }
-
   }
 
   
