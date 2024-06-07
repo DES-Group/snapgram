@@ -30,7 +30,7 @@ type PostFormProps = {
 const PostForm = ({post}: PostFormProps ) => {
 
   const { mutateAsync: createPost } = useCreatePost()
-  const { user }  = useUSerContext() 
+  const { user }  = useUSerContext()
   const { toast } = useToast()
   const navigate = useNavigate()
 
@@ -41,26 +41,26 @@ const PostForm = ({post}: PostFormProps ) => {
         caption: post ? post?.post.caption : "",
         file: [],
         location: post ? post?.location : "", 
-        tags: post ? post.tags.join(',') : ''
+      tags: post ? post.tags.join(',') : '',
     },
   })
  
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof PostValidation>) {
     
-    // const newPost = await createPost({
-    //   ...values, 
-    //   userId: user.id,
-    // })
+    const newPost = await createPost({
+      ...values, 
+      userId: user.id,
+    })
 
-    // if (!newPost) {
-    //   toast({
-    //     title: "Svp! Rééssayer encore.", 
-    //     description: "Une description."
-    //   })
-    // }
+    if (!newPost) {
+      toast({
+        title: "Svp! Rééssayer encore.", 
+        description: "Une description."
+      })
+    }
 
-    // navigate('/')
+    navigate('/')
   }
 
   return (

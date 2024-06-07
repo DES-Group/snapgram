@@ -15,7 +15,7 @@ import { z } from "zod"
 import Loader from "@/components/shared/Loader"
 import { Link, useNavigate } from "react-router-dom"
 import { useToast } from "@/components/ui/use-toast"
-import { useCreateUserAccount, useSignInAccount, useUserExist} from "@/lib/react-query/queriesAndMutations"
+import { useCreateUserAccount, useSignInAccount} from "@/lib/react-query/queriesAndMutations"
 import { useUSerContext } from "@/context/AuthContext"
 
 
@@ -29,7 +29,6 @@ function SignUpForm() {
   const { mutateAsync: createUserAccount, isPending: isCreatingAccount } =
     useCreateUserAccount();
   const { mutateAsync: signInAccount } = useSignInAccount()
-  const {mutateAsync: userExist} = useUserExist()
   
   
   // 1. Définition du formulaire en utilisant le hook useForm de react-hook-form.
