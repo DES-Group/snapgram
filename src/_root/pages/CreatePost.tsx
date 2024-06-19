@@ -10,11 +10,11 @@ const CreatePost = () => {
             src="/assets/icons/add-post.svg"
             width={36}
             height={36}
-            alt="add-post"
+            alt="ajouter-publication"
           />
           <h2 className="h3-bold md:h2-bold text-left w-full">Faire une publication</h2>
         </div>
-        <PostForm />
+        <PostForm action="Create" />
       </div>
     </div>
   )

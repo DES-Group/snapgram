@@ -18,8 +18,9 @@ export const SigninValidation = z.object({
 })
 
 export const PostValidation = z.object({
-    caption: z.string(), 
-    file: z.custom<File[]>(), 
+    caption: z.string(),
+    file: z.custom<File[]>(),
     location: z.string().min(2).max(100),
     tags: z.string(),
 })
+

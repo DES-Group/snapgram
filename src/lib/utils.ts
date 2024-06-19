@@ -6,8 +6,12 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 
-export function formatDate(dateString: string): string {
-    const now = new Date();
+export function formatDate(dateString: string | undefined): string {
+    
+    if (dateString === undefined) return '';
+
+    
+    const now = new Date();    
     const date = new Date(dateString);
     const seconds = Math.floor((now.getTime() - date.getTime()) / 1000);
 
