@@ -85,7 +85,6 @@ export async function getCurrentUser() {
   try {
     const currentAccount = await getAccount();
 
-
     if (!currentAccount) throw Error
 
     const currentUser = await databases.listDocuments(
@@ -93,7 +92,6 @@ export async function getCurrentUser() {
       appwriteConfig.userCollectionId,
       [Query.equal("accountId", currentAccount.$id)]
     );
-
 
     if (!currentUser) throw Error;
 
@@ -103,6 +101,7 @@ export async function getCurrentUser() {
     return null;
   }
 }
+
 
 // ============================== SIGN OUT
 export async function signOutAccount() {
@@ -226,8 +225,10 @@ export async function searchPosts(searchTerm: string) {
   }
 }
 
-export async function getInfinitePosts({ pageParam }: { pageParam: number }) {
-  const queries: any[] = [Query.orderDesc("$updatedAt"), Query.limit(9)];
+
+export async function getInfinitePosts({ pageParam }: { pageParam:number }) {
+  
+  const queries = [Query.orderDesc("$updatedAt"), Query.limit(9)];
 
   if (pageParam) {
     queries.push(Query.cursorAfter(pageParam.toString()));

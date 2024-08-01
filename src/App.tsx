@@ -4,9 +4,18 @@ import SignInForm from './_auth/forms/SignInForm';
 import SignUpForm from './_auth/forms/SignUpForm';
 import { Routes, Route } from 'react-router-dom';
 import { Toaster } from "@/components/ui/toaster"
-import { AllUsers, CreatePost, EditPost, Explore, Home, PostDetails, Profile, Saved, UpdateProfile } from './_root/pages';
+import {
+  AllUsers,
+  CreatePost,
+  EditPost,
+  Explore,
+  Home,
+  PostDetails,
+  Profile,
+  Saved,
+  UpdateProfile } from './_root/pages';
 
-import './global.css';
+import './globals.css';
 
 
 
@@ -17,13 +26,13 @@ export const App = () => {
         <Routes>
           {/** Public routes */}
           <Route element={<AuthLayout />} >
-            <Route path='/sign-up' element={<SignUpForm />} /> {/** Create account */}
-            <Route path='/sign-in' element={<SignInForm />} /> {/** Login */}
+            <Route path='/sign-in' element={<SignInForm />} />
+            <Route path='/sign-up' element={<SignUpForm />} />
           </Route>
 
           {/** Private routes */}
           <Route element={<RootLayout />} >
-            <Route index element={<Home />} />
+            <Route index element={<Home />} /> {/** The homepage */}
             <Route path='/explore' element={<Explore />} />
             <Route path='/saved' element={<Saved />} />
             <Route path='/all-users' element={<AllUsers />} />
@@ -32,8 +41,6 @@ export const App = () => {
             <Route path='/posts/:id' element={<PostDetails />} />
             <Route path='/profile/:id/*' element={<Profile />} />
             <Route path='/update-profile/:id' element={<UpdateProfile />} />
-            
-
           </Route>
         </Routes>
       <Toaster />

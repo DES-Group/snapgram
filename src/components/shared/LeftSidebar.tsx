@@ -22,9 +22,11 @@ const LeftSidebar = () => {
       navigate(0) //Navigate either to signup or signin 
     }
   }, [isSuccess]) 
+  
+
   return (
     <nav className='leftsidebar'>
-      <div className='flex flex-col gap-11'>
+      <div className='flex flex-col gap-2'>
           <Link to="/" className="flex gap-3 items-center">
           <img
             src='/assets/images/logo.svg'
@@ -40,7 +42,7 @@ const LeftSidebar = () => {
             className='w-14 h-14 rounded-full'
           />
           <div className='flex flex-col'>
-            <p className='user-bold'>
+            <p className='body-bold'>
               {user.name}
             </p>
             <p className='small-regular text-light-3'>
@@ -49,7 +51,7 @@ const LeftSidebar = () => {
           </div>
         </Link>
 
-        <ul className='flex flex-col gap-6'>
+        <ul className='flex flex-col gap-3'>
           {
             sidebarLinks.map((link: INavLink) => {
                 

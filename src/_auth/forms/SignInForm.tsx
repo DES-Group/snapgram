@@ -1,12 +1,12 @@
 import { Button } from '@/components/ui/button';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
-  Form, FormControl, 
-  FormField, 
-  FormItem, 
+  Form, FormControl,
+  FormField,
+  FormItem,
   FormLabel,
   FormMessage
-} from "@/components/ui/form"; 
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
@@ -25,8 +25,8 @@ function SignInForm() {
   const { checkAuthUser, isLoading: isUserLoading } = useUSerContext()
   const navigate = useNavigate()
 
-  const {mutateAsync:signInAccount} =  useSignInAccount()
-  
+  const { mutateAsync: signInAccount } = useSignInAccount()
+
   // 1. Définition du formulaire en utilisant le hook useForm de react-hook-form.
   // Les conditions de validation de ce formulaire sont dans la fonction SignupFormValidation qui
   // se trouve dans /lib/validation/index.ts.
@@ -35,13 +35,13 @@ function SignInForm() {
     resolver: zodResolver(SigninValidation),
     defaultValues: {
       email: '',
-      password: '', 
+      password: '',
     },
   })
 
-    // 2. La fonction a appelée lorsque le formulaire est validé
+  // 2. La fonction a appelée lorsque le formulaire est validé
   async function onSubmit(values: z.infer<typeof SigninValidation>) {
-   
+
     //Login the user 
     const session = await signInAccount({
       email: values.email,
@@ -53,21 +53,21 @@ function SignInForm() {
     }
 
     const isLoggedIn = await checkAuthUser();
-    
+
     if (isLoggedIn) {
       form.reset();
       navigate('/')
     }
     else {
       return toast({ title: "Échec de connexion. Merci de réessayer !" });
-    }   
+    }
   }
 
 
   return (
 
     <Form {...form}>
-      
+
       <div className="sm:w-420 flex-center flex-col">
         <img
           src="/assets/images/logo.svg"
@@ -80,9 +80,9 @@ function SignInForm() {
         <p className="text-light-3 small-medium md:base-regular mt-2">
           Content de vous revoir
         </p>
-      
+
         <form onSubmit={form.handleSubmit(onSubmit)}>
-          
+
           <FormField
             control={form.control}
             name="email"
@@ -95,7 +95,7 @@ function SignInForm() {
                 <FormMessage className="text-end" />
               </FormItem>
             )}
-          /> 
+          />
 
 
           <FormField
@@ -107,7 +107,7 @@ function SignInForm() {
                 <FormControl>
                   <Input type="password" className="shad-input" {...field} />
                 </FormControl>
-                <FormMessage  className="text-end" />
+                <FormMessage className="text-end" />
               </FormItem>
             )}
           />
@@ -118,7 +118,7 @@ function SignInForm() {
                 <div className="flex-center gap-2">
                   <Loader /> En cours...
                 </div>
-                
+
               ) : (
                 <span>Se connecter</span>
               )
@@ -126,7 +126,7 @@ function SignInForm() {
           </Button>
 
           <p className="text-small-regular">
-            Vous n'avez-pas un compte ? 
+            Vous n'avez-pas un compte ?
             <Link to='/sign-up' className="text-primary-500 text-small-semibold ml-1" >
               Créer un compte
             </Link>
@@ -134,7 +134,7 @@ function SignInForm() {
         </form>
       </div>
     </Form>
-    
+
   )
 }
 

@@ -20,14 +20,12 @@ import { useUSerContext } from "@/context/AuthContext"
 
 
 
-function SignUpForm() {
+export default function SignUpForm() {
 
   const { toast } = useToast(); //To show notification.
   const { checkAuthUser } = useUSerContext() //To check if the user is connected or not.
   const navigate = useNavigate() //To make redirection  
-
-  const { mutateAsync: createUserAccount, isPending: isCreatingAccount } =
-    useCreateUserAccount();
+  const { mutateAsync: createUserAccount, isPending: isCreatingAccount } = useCreateUserAccount();
   const { mutateAsync: signInAccount } = useSignInAccount()
   
   
@@ -48,34 +46,23 @@ function SignUpForm() {
   // 2. La fonction a appelée lorsque le formulaire est validé
   async function onSubmit(values: z.infer<typeof SignupValidation>) {
     
-    //Check if a user with same informations already exist
-    const existingUser =await userExist(values) 
-
-    if (existingUser) 
-    {
-      return toast({
-        title: "Un compte utilisant ces informations a déjà été créé."
-      })  
-    }
-
     //Creating the user Account 
     const newUser = await createUserAccount(values);
 
     if (!newUser) {
       return toast({
-        title: "Création de compte échoué. Merci de réessayer.",
-        description: "Vendredi, 10 Février, 2024"
+        title: "Création de compte échoué. Merci de réessayer."
       })
     }
 
-    //Login the user 
+    //Sign in  the user 
     const session = await signInAccount({
       email: values.email,
       password: values.password
     })
 
     if (!session) {
-      return toast({ title: "Connexion échoué. Merci de réessayer." })
+      return toast({ title: "Connexion échoué(session). Merci de réessayer." })
     }
 
     const isLoggedIn = await checkAuthUser();
@@ -95,10 +82,7 @@ function SignUpForm() {
     <Form {...form}>
       
       <div className="sm:w-420 flex-center flex-col">
-        <img
-          src="/assets/images/logo.svg"
-          alt="logo"
-        />
+        <img src="/assets/images/logo.svg" alt="logo" />
         <h3
           className="h4-bold md:h3-bold pt-5 sm:pt-12">
           Créer un nouveau compte
@@ -107,8 +91,7 @@ function SignUpForm() {
           Pour utiliser Snapgram, vous devez créer un compte
         </p>
       
-
-        <form onSubmit={form.handleSubmit(onSubmit)}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-2 w-full">
           <FormField
             control={form.control}
             name="name"
@@ -178,7 +161,7 @@ function SignUpForm() {
             }
           </Button>
 
-          <p className="text-small-regular">
+          <p className="text-small-regular text-light-2 text-center mt-2">
             Avez-vous déjà un compte ?
             <Link to='/sign-in' className="text-primary-500 text-small-semibold ml-1" >
               Se connecter
@@ -190,5 +173,3 @@ function SignUpForm() {
     
   )
 }
-
-export default SignUpForm

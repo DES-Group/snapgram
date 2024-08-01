@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
 
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -90,7 +91,7 @@
   }
 
   .custom-scrollbar::-webkit-scrollbar {
-    width: 3px;
+    width: 5px;
     height: 3px;
     border-radius: 2px;
   }
@@ -258,7 +259,7 @@
   }
 
   .shad-input {
-    @apply h-12 bg-dark-4 border-none placeholder:text-light-4 focus-visible:ring-1 focus-visible:ring-offset-1 ring-offset-light-3 !important;
+    @apply h-10 bg-dark-4 border-none placeholder:text-light-4 focus-visible:ring-1 focus-visible:ring-offset-1 ring-offset-light-3 !important;
   }
 
   .shad-textarea {

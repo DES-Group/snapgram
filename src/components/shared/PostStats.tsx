@@ -10,12 +10,12 @@ import { Models } from "appwrite";
 import Loader from "./Loader";
 
 type PostStatsProps = {
-    post: Models.Document;
+    post: Models.Document | undefined;
     userId: string;
 };
 
 const PostStats: React.FC<PostStatsProps> = ({ post, userId }) => {
-    const initialLikes = useMemo(() => post.likes.map((user: Models.Document) => user.$id), [post.likes]);
+    const initialLikes = useMemo(() => post?.likes.map((user: Models.Document) => user.$id), [post?.likes]);
     const [likes, setLikes] = useState<string[]>(initialLikes);
     const [isSaved, setIsSaved] = useState(false);
 
@@ -26,7 +26,7 @@ const PostStats: React.FC<PostStatsProps> = ({ post, userId }) => {
     const { data: currentUser } = useGetCurrentUser();
 
     const savedPostRecord = useMemo(() => currentUser?.save.find((record: Models.Document) =>
-        record.post.$id === post.$id), [currentUser, post.$id]);
+        record.post.$id === post?.$id), [currentUser, post?.$id]);
 
     useEffect(() => {
         setIsSaved(!!savedPostRecord);
@@ -40,10 +40,10 @@ const PostStats: React.FC<PostStatsProps> = ({ post, userId }) => {
                 ? prevLikes.filter((id) => id !== userId)
                 : [...prevLikes, userId];
 
-            likePost({ postId: post.$id, likeArray: newLikes });
+            likePost({ postId: post?.$id || '', likeArray: newLikes });
             return newLikes;
         });
-    }, [likePost, post.$id, userId]);
+    }, [likePost, post?.$id, userId]);
 
     const handleSavedPost = useCallback((e: React.MouseEvent<HTMLImageElement>) => {
         e.stopPropagation();
@@ -53,11 +53,11 @@ const PostStats: React.FC<PostStatsProps> = ({ post, userId }) => {
             deleteSavedPost(savedPostRecord.$id);
         } else {
         
-            savePost({ postId:post.$id, userId });
+            savePost({ postId:post?.$id || '', userId });
 
             setIsSaved(true);
         }
-    }, [deleteSavedPost, isSaved, savePost, savedPostRecord, post.$id, userId]);
+    }, [deleteSavedPost, isSaved, savePost, savedPostRecord, post?.$id, userId]);
 
     return (
         <div className="flex justify-between items-center z-20">

@@ -1,3 +1,6 @@
+import animate from 'tailwindcss-animate';
+
+
 /** @type {import('tailwindcss').Config} */
 //const defaultTheme = require('tailwindcss/defaultTheme')
 
@@ -66,5 +69,7 @@ export default {
       },
     },
   },
-  //plugins: [require('tailwindcss-animate')],
+  plugins: [
+    animate
+  ],
 };
